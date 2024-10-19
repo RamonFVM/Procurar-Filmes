@@ -1,0 +1,25 @@
+.Search {
+    display: flex;
+    border: 2px solid black; 
+    border-radius: 30px;
+    width: 60%;
+    justify-content: center;
+    margin: 100px auto 0;
+    padding: 0.5rem;
+}
+
+.Search input {
+    border: none;
+    border-radius: 30px; 
+    padding: 1rem 1.5rem; 
+    width: 100%; 
+    height: 100%; 
+    outline: none; 
+    font-size: 18px; 
+    color: black; 
+}
+
+
+.Search {
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); 
+}
