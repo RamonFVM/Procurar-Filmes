@@ -8,18 +8,36 @@ export function Search() {
     const [movieData, setMovieData] = useState(null);
 
     useEffect(() => {
+        const controller = new AbortController();
+
         const fetchMovieData = async () => {
             if (movie) {
                 try {
-                    const response = await axios.get(`http://www.omdbapi.com/?t=${movie}&apikey=${Api_key}`);
-                    setMovieData(response.data);
+                    const response = await axios.get(`http://www.omdbapi.com/?t=${movie}&apikey=${Api_key}`, {
+                        signal: controller.signal,
+                    });
+
+                    if (response.data && response.data.Response === 'True') {
+                        setMovieData(response.data);
+                    } else {
+                        console.error('Filme não encontrado:', response.data.Error);
+                        setMovieData(null);
+                    }
                 } catch (error) {
-                    console.error('Erro ao buscar dados do filme:', error);
+                    if (error.name !== 'AbortError') {
+                        console.error('Erro ao buscar dados do filme:', error);
+                    }
                 }
+            } else {
+                setMovieData(null); 
             }
         };
 
         fetchMovieData();
+
+        return () => {
+            controller.abort(); 
+        };
     }, [movie, Api_key]);
 
     return (
@@ -33,13 +51,15 @@ export function Search() {
                 />
             </div>
 
-            {movieData && (
+            {movieData && movieData.Title && (
                 <div className={Styles.MovieInfo}>
-                    <h1>{movieData.Title}</h1>
+                    <h1>Titulo: {movieData.Title}</h1>
                     <p>Ano: {movieData.Year}</p>
                     <p>Gênero: {movieData.Genre}</p>
                     <p>Sinopse: {movieData.Plot}</p>
                     <p>Diretor: {movieData.Director}</p>
+                    <p>País: {movieData.Country}</p>
+
                     <h2>Classificações:</h2>
                     {movieData.Ratings && movieData.Ratings.length > 0 ? (
                         <ul>
