@@ -40,6 +40,12 @@ export function Search() {
         };
     }, [movie, Api_key]);
 
+    const handleChange = (e) => {
+        
+        
+        setMovie(e.target.value.toLowerCase());
+    };
+
     return (
         <div>
             <div className={Styles.Search}>
@@ -47,7 +53,7 @@ export function Search() {
                     type="text"
                     value={movie}
                     placeholder="Pesquisar..."
-                    onChange={(e) => setMovie(e.target.value)}
+                    onChange={handleChange}
                 />
             </div>
 
