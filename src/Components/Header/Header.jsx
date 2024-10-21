@@ -4,10 +4,13 @@ import { MagnifyingGlass } from 'phosphor-react';
 
 export function Header(){
 
-    return(
+    return(        
+
+
+        
 
         <div className={styles.Header}>
-            <h1>Pesquisar Filmes </h1>
+            <h1>Search Movies </h1>
             <MagnifyingGlass size={32} />
         </div>
     )

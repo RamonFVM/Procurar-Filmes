@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import Styles from './Search.module.css';
 import axios from 'axios';
+import { motion } from 'framer-motion';
 
 export function Search() {
     const Api_key = import.meta.env.VITE_OMDB_API_KEY;
@@ -41,30 +42,38 @@ export function Search() {
     }, [movie, Api_key]);
 
     const handleChange = (e) => {
-        
-        
         setMovie(e.target.value.toLowerCase());
     };
 
     return (
         <div>
             <div className={Styles.Search}>
-                <input
+                <motion.input
                     type="text"
                     value={movie}
                     placeholder="Pesquisar..."
                     onChange={handleChange}
+                    initial={{ opacity: 0, y: -20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 1.0 }}
                 />
             </div>
 
             {movieData && movieData.Title && (
-                <div className={Styles.MovieInfo}>
-                    <h1>Titulo: {movieData.Title}</h1>
+                <motion.div
+                    className={Styles.MovieInfo}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: 20 }}
+                    transition={{ duration: 1.3 }}
+                >
+                    <h1>Título: {movieData.Title}</h1>
                     <p>Ano: {movieData.Year}</p>
                     <p>Gênero: {movieData.Genre}</p>
                     <p>Sinopse: {movieData.Plot}</p>
                     <p>Diretor: {movieData.Director}</p>
                     <p>País: {movieData.Country}</p>
+                    <p>Idioma: {movieData.Language}</p>
 
                     <h2>Classificações:</h2>
                     {movieData.Ratings && movieData.Ratings.length > 0 ? (
@@ -78,7 +87,7 @@ export function Search() {
                     ) : (
                         <p>Nenhuma classificação disponível.</p>
                     )}
-                </div>
+                </motion.div>
             )}
         </div>
     );
